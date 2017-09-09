@@ -1,0 +1,3 @@
+/home/ferny/FER/build/CMakeFiles/rebuild_cache.dir
+/home/ferny/FER/build/CMakeFiles/edit_cache.dir
+/home/ferny/FER/build/CMakeFiles/lbp.dir
