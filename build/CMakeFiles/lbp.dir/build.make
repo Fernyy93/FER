@@ -57,38 +57,64 @@ include CMakeFiles/lbp.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/lbp.dir/flags.make
 
-CMakeFiles/lbp.dir/lbp.cpp.o: CMakeFiles/lbp.dir/flags.make
-CMakeFiles/lbp.dir/lbp.cpp.o: ../lbp.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferny/FER/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/lbp.dir/lbp.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/lbp.dir/lbp.cpp.o -c /home/ferny/FER/lbp.cpp
+CMakeFiles/lbp.dir/src/lbp.cpp.o: CMakeFiles/lbp.dir/flags.make
+CMakeFiles/lbp.dir/src/lbp.cpp.o: ../src/lbp.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferny/FER/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/lbp.dir/src/lbp.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/lbp.dir/src/lbp.cpp.o -c /home/ferny/FER/src/lbp.cpp
 
-CMakeFiles/lbp.dir/lbp.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/lbp.dir/lbp.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ferny/FER/lbp.cpp > CMakeFiles/lbp.dir/lbp.cpp.i
+CMakeFiles/lbp.dir/src/lbp.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/lbp.dir/src/lbp.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ferny/FER/src/lbp.cpp > CMakeFiles/lbp.dir/src/lbp.cpp.i
 
-CMakeFiles/lbp.dir/lbp.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/lbp.dir/lbp.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ferny/FER/lbp.cpp -o CMakeFiles/lbp.dir/lbp.cpp.s
+CMakeFiles/lbp.dir/src/lbp.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/lbp.dir/src/lbp.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ferny/FER/src/lbp.cpp -o CMakeFiles/lbp.dir/src/lbp.cpp.s
 
-CMakeFiles/lbp.dir/lbp.cpp.o.requires:
+CMakeFiles/lbp.dir/src/lbp.cpp.o.requires:
 
-.PHONY : CMakeFiles/lbp.dir/lbp.cpp.o.requires
+.PHONY : CMakeFiles/lbp.dir/src/lbp.cpp.o.requires
 
-CMakeFiles/lbp.dir/lbp.cpp.o.provides: CMakeFiles/lbp.dir/lbp.cpp.o.requires
-	$(MAKE) -f CMakeFiles/lbp.dir/build.make CMakeFiles/lbp.dir/lbp.cpp.o.provides.build
-.PHONY : CMakeFiles/lbp.dir/lbp.cpp.o.provides
+CMakeFiles/lbp.dir/src/lbp.cpp.o.provides: CMakeFiles/lbp.dir/src/lbp.cpp.o.requires
+	$(MAKE) -f CMakeFiles/lbp.dir/build.make CMakeFiles/lbp.dir/src/lbp.cpp.o.provides.build
+.PHONY : CMakeFiles/lbp.dir/src/lbp.cpp.o.provides
 
-CMakeFiles/lbp.dir/lbp.cpp.o.provides.build: CMakeFiles/lbp.dir/lbp.cpp.o
+CMakeFiles/lbp.dir/src/lbp.cpp.o.provides.build: CMakeFiles/lbp.dir/src/lbp.cpp.o
+
+
+CMakeFiles/lbp.dir/src/lbp_main.cpp.o: CMakeFiles/lbp.dir/flags.make
+CMakeFiles/lbp.dir/src/lbp_main.cpp.o: ../src/lbp_main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ferny/FER/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/lbp.dir/src/lbp_main.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/lbp.dir/src/lbp_main.cpp.o -c /home/ferny/FER/src/lbp_main.cpp
+
+CMakeFiles/lbp.dir/src/lbp_main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/lbp.dir/src/lbp_main.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ferny/FER/src/lbp_main.cpp > CMakeFiles/lbp.dir/src/lbp_main.cpp.i
+
+CMakeFiles/lbp.dir/src/lbp_main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/lbp.dir/src/lbp_main.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ferny/FER/src/lbp_main.cpp -o CMakeFiles/lbp.dir/src/lbp_main.cpp.s
+
+CMakeFiles/lbp.dir/src/lbp_main.cpp.o.requires:
+
+.PHONY : CMakeFiles/lbp.dir/src/lbp_main.cpp.o.requires
+
+CMakeFiles/lbp.dir/src/lbp_main.cpp.o.provides: CMakeFiles/lbp.dir/src/lbp_main.cpp.o.requires
+	$(MAKE) -f CMakeFiles/lbp.dir/build.make CMakeFiles/lbp.dir/src/lbp_main.cpp.o.provides.build
+.PHONY : CMakeFiles/lbp.dir/src/lbp_main.cpp.o.provides
+
+CMakeFiles/lbp.dir/src/lbp_main.cpp.o.provides.build: CMakeFiles/lbp.dir/src/lbp_main.cpp.o
 
 
 # Object files for target lbp
 lbp_OBJECTS = \
-"CMakeFiles/lbp.dir/lbp.cpp.o"
+"CMakeFiles/lbp.dir/src/lbp.cpp.o" \
+"CMakeFiles/lbp.dir/src/lbp_main.cpp.o"
 
 # External object files for target lbp
 lbp_EXTERNAL_OBJECTS =
 
-lbp: CMakeFiles/lbp.dir/lbp.cpp.o
+lbp: CMakeFiles/lbp.dir/src/lbp.cpp.o
+lbp: CMakeFiles/lbp.dir/src/lbp_main.cpp.o
 lbp: CMakeFiles/lbp.dir/build.make
 lbp: /usr/local/lib/libopencv_stitching.so.3.3.0
 lbp: /usr/local/lib/libopencv_superres.so.3.3.0
@@ -136,7 +162,7 @@ lbp: /usr/local/lib/libopencv_objdetect.so.3.3.0
 lbp: /usr/local/lib/libopencv_imgproc.so.3.3.0
 lbp: /usr/local/lib/libopencv_core.so.3.3.0
 lbp: CMakeFiles/lbp.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ferny/FER/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable lbp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ferny/FER/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable lbp"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/lbp.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -144,7 +170,8 @@ CMakeFiles/lbp.dir/build: lbp
 
 .PHONY : CMakeFiles/lbp.dir/build
 
-CMakeFiles/lbp.dir/requires: CMakeFiles/lbp.dir/lbp.cpp.o.requires
+CMakeFiles/lbp.dir/requires: CMakeFiles/lbp.dir/src/lbp.cpp.o.requires
+CMakeFiles/lbp.dir/requires: CMakeFiles/lbp.dir/src/lbp_main.cpp.o.requires
 
 .PHONY : CMakeFiles/lbp.dir/requires
 

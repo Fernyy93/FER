@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/lbp.dir/lbp.cpp.o"
+  "CMakeFiles/lbp.dir/src/lbp.cpp.o"
+  "CMakeFiles/lbp.dir/src/lbp_main.cpp.o"
   "lbp.pdb"
   "lbp"
 )

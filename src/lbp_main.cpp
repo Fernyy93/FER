@@ -1,56 +1,36 @@
-#include "opencv2/core.hpp"
-#include "opencv2/imgproc.hpp"
-//#include "opencv2/contrib/contrib.hpp"
-#include "opencv2/highgui.hpp"
-#include "opencv2/face.hpp"
-#include <opencv2/plot.hpp>
-
-#include <iostream>
-#include <fstream>
-#include <sstream>
-
+#include <lbp.h>
 
 using namespace cv;
 using namespace cv::face;
 using namespace cv::plot;
 using namespace std;
 
-static void read_csv(const string& filename, vector<Mat>& images, 
-	vector<int>&labels, char separator = ';') {
-
-	std::ifstream file(filename.c_str(), ifstream::in);
-	if(!file) {
-		string error_message = "No valid input file was given, please check the given filename.";
-		CV_Error(CV_StsBadArg, error_message);
-	}
-	string line;
-	string path;
-	string classlabel;
-
-	while(getline(file, line)) {
-		stringstream liness(line);
-		getline(liness, path, separator);
-		getline(liness, classlabel);
-		if (!path.empty() && !classlabel.empty()){
-			images.push_back(imread(path,0));
-			labels.push_back(atoi(classlabel.c_str()));
-		}
-	}
-}
-
 int main(int argc, const char *argv[]){
 	if (argc != 2){
-		cout << "usage: " << argv[0] << " <csv.ext>" << endl;
+		cout << "usage: " << argv[0] << " <emotions dir> " << endl;
 	}
+	// I want a map of histograms by emotion label eventually
 
-	string fn_csv = string(argv[1]);
+	vector<string> files;
+	get_dir(argv[1], files);
+	string fn_csv = string(argv[1]) + "/" + files[1];	//fn_csv.append = string(files[0]);
+	cout << "file containing image paths = " << files[1] << endl;
 	cout << "filename: " << fn_csv << endl;
 	// later do a matrix of vectors? one vector for each emotion
 	vector<Mat> images;
-	vector<int> labels;
+	vector<int> nums;
+	vector<string> labels = {"anger", 
+							"disgust", 
+							"fear", 
+							"neutral", 
+							"surprise", 
+							"contempt",
+							"happy", 
+							"sadness"};
 
+	
 	try {
-		read_csv(fn_csv, images, labels);
+		read_csv(fn_csv, images, nums);
 	} catch (cv::Exception& e) {
 		cerr << "Error opening file \"" << fn_csv << "\". Reason: " << e.msg << endl;
 		exit(1); 
@@ -66,9 +46,10 @@ int main(int argc, const char *argv[]){
 	
 	
 	cout << "images size: " << images.size() << endl;
-	for (vector<int>::const_iterator it = labels.begin(); it!=labels.end(); ++it){
-		cout << "labels: " <<  *it << endl;
+	for (vector<int>::const_iterator it = nums.begin(); it!=nums.end(); ++it){
+		cout << "nums: " <<  *it << endl;
 	}
+
 	for (vector<Mat>::const_iterator it = images.begin(); it!=images.end(); ++it){
 		const Size size = (*it).size();
 		cout << size.width << " " << size.height << endl;
@@ -84,18 +65,20 @@ int main(int argc, const char *argv[]){
 	// to their original size
 
 	int height = images[0].rows;
-
+	cout << "images size: " << images.size() << "nums size: " << nums.size() << endl;
 	// divide dataset into training and testing sets for the face detector
 	// later remove 20% of the images (maybe 10 or 5 since my set is small)
 	Mat testSample = images[images.size() -1];
-	int testLabel = labels[labels.size() - 1];
-	images.pop_back(); // removes last element of vector
-	labels.pop_back();
+	int testLabel = nums[nums.size() - 1];
+	
+	images.pop_back(); // removes last element of vector 
+	nums.pop_back();
+	
 
-	//****** Shamelessly copy pasted from opencv.org ******//
+	//****** Shamelessly copy pasted from opencv.org ******/
 	// The following lines create an LBPH model for
     // face recognition and train it with the images and
-    // labels read from the given CSV file.
+    // nums read from the given CSV file.
     //
     // The LBPHFaceRecognizer uses Extended Local Binary Patterns
     // (it's probably configurable with other operators at a later
@@ -115,9 +98,10 @@ int main(int argc, const char *argv[]){
     //
     //      cv::createLBPHFaceRecognizer(1,8,8,8,123.0)
     //***** End copy paste ******************************//
+    
 	Ptr<LBPHFaceRecognizer> model = LBPHFaceRecognizer::create();	
 	// the following line predicts the label of a given test image
-	model->train(images, labels);
+	model->train(images, nums);
 	int predictedLabel = model->predict(testSample);
 	// To get the confidence of a prediction call the model with:
     //
@@ -137,7 +121,7 @@ int main(int argc, const char *argv[]){
     // to 0.0 without retraining the model. This can be useful if
     // you are evaluating the model:
     //
-    model->setThreshold(0.0);
+    model->setThreshold(0.1);
     // Now the threshold of this model is set to 0.0. A prediction
     // now returns -1, as it's impossible to have a distance below
     // it
@@ -162,9 +146,9 @@ int main(int argc, const char *argv[]){
 	cout << "Number of rows of histogram: " << histograms[0].rows << endl; // .rows returns an int
 	cout << "Number of cols of histogram: " << histograms[0].cols << endl; // .cols returns an int
 
-	/*  I need to turn the below into a function
+	//  I need to turn the below into a function
 	//  probably like:
-	//  void plotStuff(vector<mat>& hist) {
+	/*  void plotStuff(vector<mat>& hist) {
 			Mat hist_plot;
 			Mat plot_result;
 			hist.convertTo(hist_plot, CV_64F);
@@ -172,8 +156,8 @@ int main(int argc, const char *argv[]){
 			plot->render()
 			imshow
 			waitKey
-	//  }
-	*/
+	}*/  
+	
 
 	Mat hist_plot;
 	Mat plot_result;

@@ -4,12 +4,14 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/ferny/FER/lbp.cpp" "/home/ferny/FER/build/CMakeFiles/lbp.dir/lbp.cpp.o"
+  "/home/ferny/FER/src/lbp.cpp" "/home/ferny/FER/build/CMakeFiles/lbp.dir/src/lbp.cpp.o"
+  "/home/ferny/FER/src/lbp_main.cpp" "/home/ferny/FER/build/CMakeFiles/lbp.dir/src/lbp_main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
+  "../include"
   "/usr/local/include"
   "/usr/local/include/opencv"
   )

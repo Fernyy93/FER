@@ -123,32 +123,59 @@ lbp/fast:
 	$(MAKE) -f CMakeFiles/lbp.dir/build.make CMakeFiles/lbp.dir/build
 .PHONY : lbp/fast
 
-lbp.o: lbp.cpp.o
+src/lbp.o: src/lbp.cpp.o
 
-.PHONY : lbp.o
+.PHONY : src/lbp.o
 
 # target to build an object file
-lbp.cpp.o:
-	$(MAKE) -f CMakeFiles/lbp.dir/build.make CMakeFiles/lbp.dir/lbp.cpp.o
-.PHONY : lbp.cpp.o
+src/lbp.cpp.o:
+	$(MAKE) -f CMakeFiles/lbp.dir/build.make CMakeFiles/lbp.dir/src/lbp.cpp.o
+.PHONY : src/lbp.cpp.o
 
-lbp.i: lbp.cpp.i
+src/lbp.i: src/lbp.cpp.i
 
-.PHONY : lbp.i
+.PHONY : src/lbp.i
 
 # target to preprocess a source file
-lbp.cpp.i:
-	$(MAKE) -f CMakeFiles/lbp.dir/build.make CMakeFiles/lbp.dir/lbp.cpp.i
-.PHONY : lbp.cpp.i
+src/lbp.cpp.i:
+	$(MAKE) -f CMakeFiles/lbp.dir/build.make CMakeFiles/lbp.dir/src/lbp.cpp.i
+.PHONY : src/lbp.cpp.i
 
-lbp.s: lbp.cpp.s
+src/lbp.s: src/lbp.cpp.s
 
-.PHONY : lbp.s
+.PHONY : src/lbp.s
 
 # target to generate assembly for a file
-lbp.cpp.s:
-	$(MAKE) -f CMakeFiles/lbp.dir/build.make CMakeFiles/lbp.dir/lbp.cpp.s
-.PHONY : lbp.cpp.s
+src/lbp.cpp.s:
+	$(MAKE) -f CMakeFiles/lbp.dir/build.make CMakeFiles/lbp.dir/src/lbp.cpp.s
+.PHONY : src/lbp.cpp.s
+
+src/lbp_main.o: src/lbp_main.cpp.o
+
+.PHONY : src/lbp_main.o
+
+# target to build an object file
+src/lbp_main.cpp.o:
+	$(MAKE) -f CMakeFiles/lbp.dir/build.make CMakeFiles/lbp.dir/src/lbp_main.cpp.o
+.PHONY : src/lbp_main.cpp.o
+
+src/lbp_main.i: src/lbp_main.cpp.i
+
+.PHONY : src/lbp_main.i
+
+# target to preprocess a source file
+src/lbp_main.cpp.i:
+	$(MAKE) -f CMakeFiles/lbp.dir/build.make CMakeFiles/lbp.dir/src/lbp_main.cpp.i
+.PHONY : src/lbp_main.cpp.i
+
+src/lbp_main.s: src/lbp_main.cpp.s
+
+.PHONY : src/lbp_main.s
+
+# target to generate assembly for a file
+src/lbp_main.cpp.s:
+	$(MAKE) -f CMakeFiles/lbp.dir/build.make CMakeFiles/lbp.dir/src/lbp_main.cpp.s
+.PHONY : src/lbp_main.cpp.s
 
 # Help Target
 help:
@@ -159,9 +186,12 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... lbp"
-	@echo "... lbp.o"
-	@echo "... lbp.i"
-	@echo "... lbp.s"
+	@echo "... src/lbp.o"
+	@echo "... src/lbp.i"
+	@echo "... src/lbp.s"
+	@echo "... src/lbp_main.o"
+	@echo "... src/lbp_main.i"
+	@echo "... src/lbp_main.s"
 .PHONY : help
 
 
