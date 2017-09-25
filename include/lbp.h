@@ -12,7 +12,15 @@
 using namespace std;
 using namespace cv;
 
-int get_dir( const char* path, vector<string>& files );
+// access the directory containing the csv files of the locations of each image for each emotion
+int get_dir(const char* path, vector<string>& files);
 
-void read_csv(const string& filename, vector<Mat>& images, 
-	vector<int>& nums);
+// reads each csv file and stores the image at each image location in a vector and also the image number
+void read_csv(const string& filename, vector<Mat>& images);
+
+// make labels to images map
+void get_images(const char* emotions_dir, vector<string>& labels, map<string, vector<Mat> >& images_map);
+
+// plots a desired histogram
+void plot_hist(vector<Mat>& hist, int num);
+

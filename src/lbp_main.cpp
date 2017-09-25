@@ -11,14 +11,15 @@ int main(int argc, const char *argv[]){
 	}
 	// I want a map of histograms by emotion label eventually
 
-	vector<string> files;
-	get_dir(argv[1], files);
-	string fn_csv = string(argv[1]) + "/" + files[1];	//fn_csv.append = string(files[0]);
-	cout << "file containing image paths = " << files[1] << endl;
-	cout << "filename: " << fn_csv << endl;
+	//vector<string> files;
+	const char* emotions_dir = argv[1];
+	//get_dir(emotions_dir, files);
+	//string fn_csv = string(emotions_dir) + "/" + files[1];	//fn_csv.append = string(files[0]);
+	//cout << "file containing image paths = " << files[1] << endl;
+	//cout << "filename: " << fn_csv << endl;
 	// later do a matrix of vectors? one vector for each emotion
-	vector<Mat> images;
-	vector<int> nums;
+	//vector<Mat> images;
+	
 	vector<string> labels = {"anger", 
 							"disgust", 
 							"fear", 
@@ -28,9 +29,10 @@ int main(int argc, const char *argv[]){
 							"happy", 
 							"sadness"};
 
-	
+	map<string, vector<Mat> > images_map;
+	/*
 	try {
-		read_csv(fn_csv, images, nums);
+		read_csv(fn_csv, images);
 	} catch (cv::Exception& e) {
 		cerr << "Error opening file \"" << fn_csv << "\". Reason: " << e.msg << endl;
 		exit(1); 
@@ -46,15 +48,14 @@ int main(int argc, const char *argv[]){
 	
 	
 	cout << "images size: " << images.size() << endl;
-	for (vector<int>::const_iterator it = nums.begin(); it!=nums.end(); ++it){
-		cout << "nums: " <<  *it << endl;
-	}
+	
 
 	for (vector<Mat>::const_iterator it = images.begin(); it!=images.end(); ++it){
 		const Size size = (*it).size();
 		cout << size.width << " " << size.height << endl;
 	}
-
+	*/
+	//images_map.insert({labels[1], images});
 	// display first image for testing
 	/*
 	namedWindow("First image", WINDOW_AUTOSIZE);
@@ -64,17 +65,17 @@ int main(int argc, const char *argv[]){
 	// get height from first image, will need this later to reshape images 
 	// to their original size
 
-	int height = images[0].rows;
-	cout << "images size: " << images.size() << "nums size: " << nums.size() << endl;
+	//int height = images[0].rows;
+	
 	// divide dataset into training and testing sets for the face detector
 	// later remove 20% of the images (maybe 10 or 5 since my set is small)
-	Mat testSample = images[images.size() -1];
-	int testLabel = nums[nums.size() - 1];
 	
-	images.pop_back(); // removes last element of vector 
-	nums.pop_back();
+	get_images(emotions_dir, labels, images_map);
+	cout << images_map.size() << endl;
+	vector<Mat> thing = images_map[labels[1]];
+	cout << thing.size() << endl;
 	
-
+	
 	//****** Shamelessly copy pasted from opencv.org ******/
 	// The following lines create an LBPH model for
     // face recognition and train it with the images and
@@ -98,7 +99,7 @@ int main(int argc, const char *argv[]){
     //
     //      cv::createLBPHFaceRecognizer(1,8,8,8,123.0)
     //***** End copy paste ******************************//
-    
+    /*
 	Ptr<LBPHFaceRecognizer> model = LBPHFaceRecognizer::create();	
 	// the following line predicts the label of a given test image
 	model->train(images, nums);
@@ -121,6 +122,7 @@ int main(int argc, const char *argv[]){
     // to 0.0 without retraining the model. This can be useful if
     // you are evaluating the model:
     //
+
     model->setThreshold(0.1);
     // Now the threshold of this model is set to 0.0. A prediction
     // now returns -1, as it's impossible to have a distance below
@@ -148,7 +150,7 @@ int main(int argc, const char *argv[]){
 
 	//  I need to turn the below into a function
 	//  probably like:
-	/*  void plotStuff(vector<mat>& hist) {
+	  void plotStuff(vector<mat>& hist) {
 			Mat hist_plot;
 			Mat plot_result;
 			hist.convertTo(hist_plot, CV_64F);
@@ -156,9 +158,10 @@ int main(int argc, const char *argv[]){
 			plot->render()
 			imshow
 			waitKey
-	}*/  
+	} 
 	
-
+	plot_hist(histograms, 1);
+	
 	Mat hist_plot;
 	Mat plot_result;
 	histograms[0].convertTo(hist_plot, CV_64F);
@@ -172,6 +175,7 @@ int main(int argc, const char *argv[]){
 
     imshow("plot", plot_result);
     waitKey();
+    */
 
 	
 
