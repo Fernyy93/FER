@@ -1,35 +1,27 @@
 #include <lbp.h>
 
-using namespace cv;
-using namespace cv::face;
-using namespace cv::plot;
-using namespace std;
-
 int main(int argc, const char *argv[]){
 	if (argc != 2){
-		cout << "usage: " << argv[0] << " <emotions dir> " << endl;
+		std::cout << "usage: " << argv[0] << " <emotions dir> " << std::endl;
 	}
 	// I want a map of histograms by emotion label eventually
 
-	//vector<string> files;
+	
 	const char* emotions_dir = argv[1];
-	//get_dir(emotions_dir, files);
-	//string fn_csv = string(emotions_dir) + "/" + files[1];	//fn_csv.append = string(files[0]);
-	//cout << "file containing image paths = " << files[1] << endl;
-	//cout << "filename: " << fn_csv << endl;
+	
 	// later do a matrix of vectors? one vector for each emotion
 	//vector<Mat> images;
 	
-	vector<string> labels = {"anger", 
-							"disgust", 
-							"fear", 
-							"neutral", 
-							"surprise", 
-							"contempt",
-							"happy", 
-							"sadness"};
+	std::vector<std::string> labels =  {"contempt",
+							            "disgust",
+							            "surprise",
+							            "anger",
+							            "fear",
+							            "happy",
+							            "neutral",
+							            "sadness"};
 
-	map<string, vector<Mat> > images_map;
+	std::map<std::string, std::vector<cv::Mat> > images_map;
 	/*
 	try {
 		read_csv(fn_csv, images);
@@ -71,11 +63,27 @@ int main(int argc, const char *argv[]){
 	// later remove 20% of the images (maybe 10 or 5 since my set is small)
 	
 	get_images(emotions_dir, labels, images_map);
-	cout << images_map.size() << endl;
-	vector<Mat> thing = images_map[labels[1]];
-	cout << thing.size() << endl;
-	
-	
+	std::cout << images_map.size() << std::endl;
+	std::vector<cv::Mat> thing = images_map[labels[1]];
+	std::cout << thing.size() << std::endl;
+	std::cout << images_map[labels[1]].size() << std::endl;
+	std::cout << "type of image: " << thing[0].type() << std::endl;
+	cv::Mat dst1;
+	cv::Mat dst2;
+	cv::Mat src = images_map[labels[1]][0];
+	OLBP(src, dst1);	
+	ELBP(src, dst2, 4, 16);
+	dispImage("Original image", src);
+	dispImage("OLBP of image", dst1);
+	dispImage("ELBP of image", dst2);
+
+
+	std::map<std::string, std::vector<cv::Mat> > histogram_map;
+	getHist(labels, images_map, histogram_map);
+	//do I want a map of histograms? Is life fair? No, so I do need one.
+
+
+
 	//****** Shamelessly copy pasted from opencv.org ******/
 	// The following lines create an LBPH model for
     // face recognition and train it with the images and

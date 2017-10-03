@@ -17,6 +17,8 @@ opencv2/face.hpp
 -
 opencv2/plot.hpp
 -
+stdint.h
+-
 iostream
 -
 fstream
@@ -24,6 +26,8 @@ fstream
 sstream
 -
 dirent.h
+-
+string.h
 -
 
 /home/ferny/FER/src/lbp.cpp

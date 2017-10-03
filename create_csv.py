@@ -1,20 +1,13 @@
 import sys
 import os.path
 
-emotions = ("anger",
-            "contempt",
-            "disgust",
-            "fear",
-            "happy",
-            "neutral",
-            "sadness",
-            "surprise")
 
-BASE_PATH = "/home/ferny/Dropbox/QUT/Semester-1-2016/BEB801/Data/sorted_set/"
-SEPARATOR = ";"
+
+
 
 
 def main():
+    """
     for emotion in emotions:
         filename = emotion+'.csv'
         f = open(filename,'w')          
@@ -26,6 +19,20 @@ def main():
             else:
                 print("Can't find folder")
         f.close()
+     """
+
+    BASE_PATH = "/home/ferny/Dropbox/QUT/Semester-1-2016/BEB801/Data/sorted_set/"
+    SEPARATOR = ";"
+    
+    for dirname, dirnames, filenames in os.walk(BASE_PATH):
+        for subdirname in dirnames:
+            subject_path = os.path.join(dirname, subdirname)
+            filename = subdirname+'.csv'
+            f = open(filename, 'w')
+            for filename in os.listdir(subject_path):
+                abs_path = "%s/%s" % (subject_path, filename)
+                fn = "%s%s" % (abs_path, SEPARATOR)
+                f.write(fn+'\n')
     
 if __name__ == "__main__":
     main()
