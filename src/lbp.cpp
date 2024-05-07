@@ -1,9 +1,13 @@
-#include <lbp.h>
+#define _USE_MATH_DEFINES
+#include <cmath>
+#include "lbp.h"
 
-int get_dir(const char* path, std::vector<std::string>& files) {
+using namespace cv;
+using namespace std;
 
-	// THIS IS A REALLY BAD WAY TO DO IT IN C++
-
+int get_dir(const char* path, std::vector<std::string>& files){
+	// start from basics.... I had a bunch of images in unorganised folders, and I want them organised by emotions
+	// need to work out why this function is necessary
 	struct dirent *entry;
 	DIR *dp;
 	
@@ -24,12 +28,12 @@ int get_dir(const char* path, std::vector<std::string>& files) {
 	return 0;
 }
 
-void read_csv(const std::string& filename, std::vector<cv::Mat>& images) {
-
+void read_csv(const std::string& filename, std::vector<cv::Mat>& images){
+// function reads a path to an image from a csv and adds the images at that path to images vector
 	std::ifstream file(filename.c_str(), std::ifstream::in);
 	if(!file) {
 		std::string error_message = "No valid input file was given, please check the given filename.";
-		CV_Error(CV_StsBadArg, error_message);
+		cv::Error::StsBadArg;
 	}
 
 	std::string line;
@@ -45,18 +49,21 @@ void read_csv(const std::string& filename, std::vector<cv::Mat>& images) {
 		 	//nums.push_back(atoi(classlabel.c_str()));
 		}
 	}
-
-
 }
+
+
 
 void get_images(const char* emotions_dir, std::vector<std::string>& labels, std::map<std::string, std::vector<cv::Mat> >& images_map){
 	// vector of filenames in emotions dir, contains 8 files
 	// this is probably an extremely inefficient way of doing this until I 
 	// figure out how to overwrite vectors properly
+	std::cout << emotions_dir << std::endl;
+	
 	std::vector<std::string> files = {};
+	// I want to get the filename of each .csv file in the directory
 	get_dir(emotions_dir, files);
 	
-	for (int i = 0; i < labels.size(); i++){
+	for (int i = 0; i < labels.size(); ++i){
 		std::vector<cv::Mat> images;
 		std::string fn_csv = std::string(emotions_dir) + "/" + files[i];
 		std::cout << "file containing image paths for " << labels[i] << ": " << files[i] << std::endl;
@@ -72,10 +79,11 @@ void get_images(const char* emotions_dir, std::vector<std::string>& labels, std:
 		images_map.insert({labels[i], images});
 		
 	}
+	
 
 }
 
-void plot_hist(std::vector<cv::Mat>& hist, int num) {
+void plot_hist(std::vector<cv::Mat>& hist, int num){
 
 	cv::Mat hist_plot;
 	cv::Mat plot_result;
@@ -112,7 +120,8 @@ void OLBP(const cv::Mat& src, cv::Mat& dst){
 
 void ELBP(const cv::Mat& src, cv::Mat& dst, int radius, int neighbors){
 	
-	neighbors = std::max(std::min(neighbors,31),1); // set bounds to between 1 and 31
+	//neighbors = std::max(std::min(neighbors,31),1); // set bounds to between 1 and 31
+	// Might as well convert the resultant histogram to CV_32F and then reshape(1,1)
 	dst = cv::Mat::zeros(src.rows-2*radius, src.cols-2*radius, CV_8UC1);
 	for (int n = 0; n < neighbors; n++){
 		// sample points
@@ -143,24 +152,99 @@ void ELBP(const cv::Mat& src, cv::Mat& dst, int radius, int neighbors){
 	}
 }
 
-void getHist(std::vector<std::string>& labels, std::map<std::string, std::vector<cv::Mat> >& images_map, std::map<std::string, std::vector<cv::Mat> >& histogram_map){
-	
+// I am passing an empty cv::Mat training_data and I get a matrix of 311344 x 1 and also passing an empty cv::Mat labelMat but only getting a matrix of 1x1.
+void getHist(std::vector<std::string>& labels, std::map<std::string, std::vector<cv::Mat> >& images_map, cv::Mat& training_data, cv::Mat& labelMat){
+	// for each label
 	for (int i = 0; i < labels.size(); i++){
 		cv::Mat dst;
 		std::vector<cv::Mat> histograms;
 		//std::vector<cv::Mat> src = images_map[labels[i]];
+		// make a histogram of each image associated with that label
 		for (int j = 0; j < images_map[labels[i]].size(); j++){
+			// I should standardise the image size first.
+			//std::cout << "(" << images_map[labels[i]][j].rows << ", " << images_map[labels[i]][j].cols << ")" << std::endl;
 			ELBP(images_map[labels[i]][j], dst, 1, 8);
 			//std::cout << "(" << i << "," << j << "): " << images_map[labels[i]][j].rows << std::endl;
-			histograms.push_back(dst);
+			// move the below conversion and reshape code to ELBP.
+			if (dst.type() != CV_32F){
+				dst.convertTo(dst,CV_32F);
+			}
+			dst = dst.reshape(1,1);
+			// COncatenate the reshaped image Mat into training_data
+			if (training_data.empty()){
+				training_data = dst.clone();
+			} else {
+				cv::vconcat(training_data, dst, training_data);
+			}
+			// concatenate the label as an integer into labelMat
+			if (labelMat.empty()){
+				labelMat = cv::Mat(1, 1, CV_32SC1, cv::Scalar(i));
+
+			} else {
+				cv::Mat label(1,1, CV_32SC1, cv::Scalar(i));
+				cv::vconcat(labelMat, label, labelMat);
+			} 
+
+			
 		}
-		histogram_map.insert({labels[i], histograms});
+		//histogram_map.insert({labels[i], histograms});
 	}
 }
 
 void dispImage(std::string title, cv::Mat& image){
 	
-	cv::namedWindow(title, CV_WINDOW_AUTOSIZE);
+	cv::namedWindow(title, cv::WINDOW_AUTOSIZE);
 	cv::imshow(title, image);
 	cv::waitKey(0);
 }
+
+void rescale(const char* emotions_dir){
+	
+
+	// I want a map of histograms by emotion label eventually	
+	std::cout << emotions_dir << std::endl;
+
+	// later do a matrix of vectors? one vector for each emotion
+	//vector<Mat> images;
+	
+	std::vector<std::string> labels =  {"anger", "contempt", "disgust", "fear", "happy", "neutral", "sadness", "surprise"};
+	
+	std::map<std::string, std::vector<cv::Mat>> images_map;							            
+	//std::map<std::string, std::vector<cv::Mat>> images_map;
+	
+	// loop through all images for each emotion, resize the image, then save to a new directory.
+	// then write a csv containing the new locations of the resized images.
+	get_images(emotions_dir, labels, images_map);
+	// define desired size and aspect ratio
+	int newWidth = 640;
+	int newHeight = 490;
+	double aspectRatio = (double)newWidth / (double)newHeight;
+
+	
+
+	for (int i = 0; i < labels.size(); i++){
+		for (int j = 0; j < images_map[labels[i]].size(); j++){
+			//std::cout << "Old size: " << "(" << images_map[labels[i]][j].rows << ", " << images_map[labels[i]][j].cols << ")" << std::endl;
+			cv::Mat resizedImage;
+			if (images_map[labels[i]][j].rows != newHeight || images_map[labels[i]][j].cols != newWidth){
+				int cropX = (images_map[labels[i]][j].cols - (images_map[labels[i]][j].rows * aspectRatio)) / 2;
+				cv::Rect cropRect(cropX, 0, images_map[labels[i]][j].rows * aspectRatio, images_map[labels[i]][j].rows);
+				// crop the image
+				cv::Mat croppedImage = images_map[labels[i]][j](cropRect);
+				// Resize the image to the new size
+				cv::resize(croppedImage, resizedImage, cv::Size(newWidth, newHeight));
+			} else {
+				resizedImage = images_map[labels[i]][j].clone();
+			}
+			//std::cout << "New size: " << "(" << resizedImage.rows << ", " << resizedImage.cols << ")" << std::endl;
+			// make the new path and write the resized image to that path
+			std::ostringstream builder;
+			builder << "../" << "new/" << labels[i] << "/" << j << ".png";
+			//std::cout << "Image written to: " << builder.str() << std::endl;
+			cv::imwrite(builder.str(), resizedImage);
+			
+
+		}
+	}
+}
+
