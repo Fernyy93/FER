@@ -1,3 +1,0 @@
-C:/Users/ferni/OneDrive/Computer Science/FER/FER2.0/build/CMakeFiles/FER2.0.dir
-C:/Users/ferni/OneDrive/Computer Science/FER/FER2.0/build/CMakeFiles/ALL_BUILD.dir
-C:/Users/ferni/OneDrive/Computer Science/FER/FER2.0/build/CMakeFiles/ZERO_CHECK.dir
