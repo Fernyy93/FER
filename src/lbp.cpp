@@ -1,6 +1,7 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include "lbp.h"
+#include "image.h"
 
 using namespace cv;
 using namespace std;
@@ -52,8 +53,36 @@ void read_csv(const std::string& filename, std::vector<cv::Mat>& images){
 }
 
 
+void get_images_json(const char* json_file, std::vector<std::pair<std::string, Image>>& images_vector){
+// objective is to read the json file, add the image to the map according to its emotion
+	// 1. read the json file and check it exists
+	std::cout << "Input json file: " << json_file << std::endl;
+	std::ifstream file(json_file);
+	if (!file){
+		std::string error_message = "No valid input file was given, please check the given filename.";
+		cv::Error::StsBadArg;
+	}
+	//std::vector<std::pair<std::string, Image> images_vector; // return this by passing by reference
+	json data = json::parse(file);
+	for (const auto& element : data){
+		std::string emotion = element.at("Emotion");
+		std::string filename = element.at("Location");
+		Image image(filename, emotion);
+		// big architectural change... make a map std::map<std::string, Image> or just a vector of Images
+		// the SVM needs two 1 dimensional data structures so it makes sense to dump the images into a 2 dimensional ordered data structure
+		// this means the keys are the labels and the values can be processed into histograms
+		// No, maps can only have 1 value associated with the key.
+		// but I can push a pair into a vector
+		images_vector.push_back(std::pair<std::string, Image>(emotion, image));
+	}
 
-void get_images(const char* emotions_dir, std::vector<std::string>& labels, std::map<std::string, std::vector<cv::Mat> >& images_map){
+
+
+}
+
+
+
+void get_images(const char* emotions_dir, std::vector<std::string>& labels, std::map<std::string, std::vector<cv::Mat>>& images_map){
 	// vector of filenames in emotions dir, contains 8 files
 	// this is probably an extremely inefficient way of doing this until I 
 	// figure out how to overwrite vectors properly
@@ -63,8 +92,10 @@ void get_images(const char* emotions_dir, std::vector<std::string>& labels, std:
 	// I want to get the filename of each .csv file in the directory
 	get_dir(emotions_dir, files);
 	
+	// for each emotion
 	for (int i = 0; i < labels.size(); ++i){
 		std::vector<cv::Mat> images;
+		// the directory contains the emotion
 		std::string fn_csv = std::string(emotions_dir) + "/" + files[i];
 		std::cout << "file containing image paths for " << labels[i] << ": " << files[i] << std::endl;
 		std::cout << "the file name is: " << fn_csv << std::endl;
@@ -191,6 +222,30 @@ void getHist(std::vector<std::string>& labels, std::map<std::string, std::vector
 	}
 }
 
+void get_Hist_json(cv::Mat& training_data, cv::Mat& labelMat,  std::vector<std::pair<std::string, Image>>& images_vector, std::map<std::string, int>& emotions){
+	
+
+	for (const auto& im : images_vector){
+		cv::Mat hist;
+		ELBP(im.second.getImage(), hist, 1, 8);
+		if (hist.type() != CV_32F){
+			hist.convertTo(hist, CV_32F);
+		}
+		hist.reshape(1,1);
+		if (training_data.empty()){
+			training_data = hist.clone();
+		} else {
+			cv::vconcat(training_data, hist, training_data);
+		}
+		if (labelMat.empty()){
+			labelMat = cv::Mat(1, 1, CV_32SC1, emotions[im.first]);
+		} else {
+			cv::Mat label(1, 1, CV_32SC1, emotions[im.first]);
+			cv::vconcat(labelMat, label, labelMat);
+		}
+	}
+}
+
 void dispImage(std::string title, cv::Mat& image){
 	
 	cv::namedWindow(title, cv::WINDOW_AUTOSIZE);
@@ -198,6 +253,7 @@ void dispImage(std::string title, cv::Mat& image){
 	cv::waitKey(0);
 }
 
+// the image mat should be the input
 void rescale(const char* emotions_dir){
 	
 
