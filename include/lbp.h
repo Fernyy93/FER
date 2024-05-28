@@ -1,3 +1,6 @@
+#ifndef LBP_H
+#define LBP_H
+
 #include <opencv2/core.hpp>
 #include <opencv2/imgproc.hpp>
 #include <opencv2/highgui.hpp>
@@ -13,6 +16,9 @@
 #include <string.h>
 #include <map>
 #include <direct.h>
+#include "../include/json.hpp"
+
+class Image;
 
 // access the directory containing the csv files of the locations of each image for each emotion
 int get_dir(const char* path, std::vector<std::string>& files);
@@ -31,7 +37,6 @@ void OLBP(const cv::Mat& src, cv::Mat& dst);
 
 // Eliptical LBP feature extraction
 void ELBP(const cv::Mat& src, cv::Mat& dst, int radius = 1, int neighbors = 8);
-
 // storing LBP features in histograms
 void getHist(std::vector<std::string>& labels, std::map<std::string, std::vector<cv::Mat> >& images_map, cv::Mat& training_data, cv::Mat& labelMat);
 
@@ -41,3 +46,10 @@ void dispImage(std::string title, cv::Mat& image);
 // rescales each image in the dataset to a constant height and width
 void rescale(const char* emotions_dir);
 
+// make label to images map from a json file
+void get_images_json(const char* json_file, std::vector<std::pair<std::string, Image>>& images_vector);
+
+// get the histograms using the pair method
+void get_Hist_json(cv::Mat& training_data, cv::Mat& labelMat,  std::vector<std::pair<std::string, Image>>& images_vector, std::map<std::string, int>& emotions);
+
+#endif

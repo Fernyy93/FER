@@ -1,3 +1,6 @@
+#ifndef IMAGE_H
+#define IMAGE_H
+
 #include <opencv2/core.hpp>
 #include <opencv2/imgproc.hpp>
 #include <opencv2/highgui.hpp>
@@ -5,29 +8,38 @@
 #include <opencv2/plot.hpp>
 #include <opencv2/ml.hpp>
 #include <stdint.h>
+#include <filesystem>
+#include <iostream>
+#include <string>
+#include <vector>
+#include <sstream>
+#include <fstream>
+#include "../include/json.hpp"
+#include <iomanip>
 
 using namespace std;
+namespace fs = std::filesystem;
+using json = nlohmann::json;
 
 class Image {
 private: 
-	int width;
-	int height;
-	std::string image_name;
-	int type;
+	std::string image_location;
 	std::string emotion;
 	cv::Mat image;
 	
 
 public:
-	Image(int width, int height, std::string img_name, int type, std::string img_emotion);
+	Image(std::string img_location, std::string img_emotion);
 	void print();
-	void setWidth(int width);
-	void setHeight(int height);
-	void setType(int type);
+	
 	void set_emotion(std::string emotion);
 
 	int getWidth();
 	int getHeight();
 	int getType();
+	const cv::Mat getImage() const;
 	std::string getEmotion();
+	json create_json_object();
 };
+
+#endif

@@ -1,5 +1,6 @@
 // how do display a single histogram from the histogram map?
 #include "lbp.h"
+#include "image.h"
 
 using namespace std;
 using namespace cv;
@@ -22,7 +23,7 @@ int main(int argc, const char *argv[]){
 	//vector<Mat> images;
 	
 	std::vector<std::string> labels =  {"anger", "contempt", "disgust", "fear", "happy", "neutral", "sadness", "surprise"};
-	std::map<string, int> emotions;
+	std::map<std::string, int> emotions;
 	
 
 	int i = 0;
@@ -34,19 +35,25 @@ int main(int argc, const char *argv[]){
 	}
 	
 
-	std::map<std::string, std::vector<cv::Mat>> images_map;							            
+	std::map<std::string, std::vector<cv::Mat>> images_map;		
+	std::vector<std::pair<std::string, Image>> images_vector;					            
 	//std::map<std::string, std::vector<cv::Mat>> images_map;
 	//rescale(emotions_dir);
 	
 	// go through the emotions dir and add the images to the images map
-	get_images(emotions_dir, labels, images_map);
-	
+	// I eventually want to use read json to get the images into the map.
+	//get_images(emotions_dir, labels, images_map);
+	get_images_json(argv[1], images_vector);
+
+	// next make another vector which is a pair of string and Histogram
+	// loop over that vector and fill the labels vector and training data vector with for each push_back pair.first and pair.second
+	/*
 	std::cout << images_map.size() << std::endl;
 	std::vector<cv::Mat> thing = images_map[labels[1]];
 	std::cout << thing.size() << std::endl;
 	std::cout << images_map[labels[1]].size() << std::endl;
 	std::cout << "type of image: " << thing[0].type() << std::endl;
-	
+	*/
 	
 
 	// this is even more streamlined
@@ -58,8 +65,12 @@ int main(int argc, const char *argv[]){
 	cv::Mat training_data;
 	cv::Mat labelMat;
 	//std::map<std::string, std::vector<cv::Mat> > histogram_map;
-	getHist(labels, images_map, training_data, labelMat);
+
 	
+	//getHist(labels, images_map, training_data, labelMat);
+	get_Hist_json(training_data, labelMat, images_vector, emotions);
+
+
 	std::cout << "Training data size: (" << training_data.rows << ", " << training_data.cols << ")" << std::endl;
 	std::cout << "Label Mat size: (" << labelMat.rows << ", " << labelMat.cols << ")" << std::endl;
 	
