@@ -231,7 +231,7 @@ void get_Hist_json(cv::Mat& training_data, cv::Mat& labelMat,  std::vector<std::
 		if (hist.type() != CV_32F){
 			hist.convertTo(hist, CV_32F);
 		}
-		hist.reshape(1,1);
+		hist = hist.reshape(1,1);
 		if (training_data.empty()){
 			training_data = hist.clone();
 		} else {
