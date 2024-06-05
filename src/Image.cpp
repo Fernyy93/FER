@@ -1,6 +1,5 @@
 // File: Image.cpp
-#include "../include/image.h"
-
+#include "image.h"
 
 // lessons learned. class definitions end with a semicolon. Need to have different variable names for constructor definition.
 Image::Image(std::string img_location, std::string img_emotion){
@@ -38,7 +37,20 @@ void Image::print(){
 	ss << "Image emotion: " << this->getEmotion() << "\n";
 	std::cout << ss.str() << std::endl;
 }
+// don't forget Image::
+void Image::write(cv::FileStorage& fs, const std::string filename, std::string label){
+	fs << "{" << "filename" << filename << "emotion" << label << "data" << image << "}";
+}
 
+void Image::read(const cv::FileNode& node){
+	node["emotion"] >> emotion;
+	node["filename"] >> image_location;
+	node["data"] >> image;
+}
+
+
+
+/*
 json Image::create_json_object(){
  	json j = {
  		{"Location", this->image_location},
@@ -54,10 +66,10 @@ json Image::create_json_object(){
  	} else {
  		std::cerr << "Could not open file for writing" << std::endl;
  	}
-	*/
+	
 	return j;
 }
-
+*/
 const cv::Mat Image::getImage() const{
 	return this->image;
 }

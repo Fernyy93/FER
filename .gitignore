@@ -1,4 +1,7 @@
-emotions/
 new/
 test/
 build/
+features_yaml/
+images_yaml/
+*.yml
+*.json

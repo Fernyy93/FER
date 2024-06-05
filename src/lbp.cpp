@@ -1,57 +1,11 @@
 #define _USE_MATH_DEFINES
-#include <cmath>
+
 #include "lbp.h"
 #include "image.h"
+//#include "base64.hpp" // this is the latest change which breaks the code.
 
 using namespace cv;
 using namespace std;
-
-int get_dir(const char* path, std::vector<std::string>& files){
-	// start from basics.... I had a bunch of images in unorganised folders, and I want them organised by emotions
-	// need to work out why this function is necessary
-	struct dirent *entry;
-	DIR *dp;
-	
-	if ((dp = opendir(path)) != NULL){
-		while((entry = readdir(dp)) != NULL){
-			if (std::string(entry->d_name)[0] != '.'){
-				std::cout << std::string(entry->d_name) << std::endl;
-				files.push_back(std::string(entry->d_name));
-			}
-			
-		}
-		closedir (dp);
-	} else {
-		perror("");
-		return EXIT_FAILURE;
-	}
-
-	return 0;
-}
-
-void read_csv(const std::string& filename, std::vector<cv::Mat>& images){
-// function reads a path to an image from a csv and adds the images at that path to images vector
-	std::ifstream file(filename.c_str(), std::ifstream::in);
-	if(!file) {
-		std::string error_message = "No valid input file was given, please check the given filename.";
-		cv::Error::StsBadArg;
-	}
-
-	std::string line;
-	std::string path;
-	
-
-	while(std::getline(file, line)) {
-		std::stringstream liness(line);
-		std::getline(liness, path, ';');
-		//getline(liness, classlabel);
-		if (!path.empty()){
-			images.push_back(cv::imread(path,0));
-		 	//nums.push_back(atoi(classlabel.c_str()));
-		}
-	}
-}
-
 
 void get_images_json(const char* json_file, std::vector<std::pair<std::string, Image>>& images_vector){
 // objective is to read the json file, add the image to the map according to its emotion
@@ -77,40 +31,6 @@ void get_images_json(const char* json_file, std::vector<std::pair<std::string, I
 	}
 
 
-
-}
-
-
-
-void get_images(const char* emotions_dir, std::vector<std::string>& labels, std::map<std::string, std::vector<cv::Mat>>& images_map){
-	// vector of filenames in emotions dir, contains 8 files
-	// this is probably an extremely inefficient way of doing this until I 
-	// figure out how to overwrite vectors properly
-	std::cout << emotions_dir << std::endl;
-	
-	std::vector<std::string> files = {};
-	// I want to get the filename of each .csv file in the directory
-	get_dir(emotions_dir, files);
-	
-	// for each emotion
-	for (int i = 0; i < labels.size(); ++i){
-		std::vector<cv::Mat> images;
-		// the directory contains the emotion
-		std::string fn_csv = std::string(emotions_dir) + "/" + files[i];
-		std::cout << "file containing image paths for " << labels[i] << ": " << files[i] << std::endl;
-		std::cout << "the file name is: " << fn_csv << std::endl;
-
-		try {
-			read_csv(fn_csv, images);
-		} catch (cv::Exception& e){
-			std::cerr << "Error opening file \"" << fn_csv << "\". Reason: " << e.msg << std::endl;
-			exit(1);
-		}
-
-		images_map.insert({labels[i], images});
-		
-	}
-	
 
 }
 
@@ -231,7 +151,7 @@ void get_Hist_json(cv::Mat& training_data, cv::Mat& labelMat,  std::vector<std::
 		if (hist.type() != CV_32F){
 			hist.convertTo(hist, CV_32F);
 		}
-		hist.reshape(1,1);
+		hist = hist.reshape(1,1);
 		if (training_data.empty()){
 			training_data = hist.clone();
 		} else {
@@ -244,6 +164,8 @@ void get_Hist_json(cv::Mat& training_data, cv::Mat& labelMat,  std::vector<std::
 			cv::vconcat(labelMat, label, labelMat);
 		}
 	}
+
+
 }
 
 void dispImage(std::string title, cv::Mat& image){
@@ -253,7 +175,7 @@ void dispImage(std::string title, cv::Mat& image){
 	cv::waitKey(0);
 }
 
-// the image mat should be the input
+/* the image mat should be the input
 void rescale(const char* emotions_dir){
 	
 
@@ -303,4 +225,4 @@ void rescale(const char* emotions_dir){
 		}
 	}
 }
-
+*/
