@@ -2,6 +2,10 @@ new/
 test/
 build/
 features_yaml/
+<<<<<<< HEAD
 images_yaml/
 *.yml
 *.json
+=======
+images_yaml/
+>>>>>>> 072285f (excluding large fiels from tracking)
