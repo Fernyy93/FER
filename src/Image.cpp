@@ -1,5 +1,5 @@
 // File: Image.cpp
-#include "../include/image.h"
+#include "image.h"
 
 
 // lessons learned. class definitions end with a semicolon. Need to have different variable names for constructor definition.

@@ -16,18 +16,11 @@
 #include <string.h>
 #include <map>
 #include <direct.h>
-#include "../include/json.hpp"
+#include "../include/json.h"
 
 class Image;
 
-// access the directory containing the csv files of the locations of each image for each emotion
-int get_dir(const char* path, std::vector<std::string>& files);
 
-// reads each csv file and stores the image at each image location in a vector and also the image number
-void read_csv(const std::string& filename, std::vector<cv::Mat>& images);
-
-// make labels to images map
-void get_images(const char* emotions_dir, std::vector<std::string>& labels, std::map<std::string, std::vector<cv::Mat> >& images_map);
 
 // plots a desired histogram
 void plot_hist(std::vector<cv::Mat>& hist, int num);
