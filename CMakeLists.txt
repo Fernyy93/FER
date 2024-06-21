@@ -1,3 +1,4 @@
+# fix this ubuntu cmake file and show me the commands to build and compile
 cmake_minimum_required(VERSION 3.8)
 
 # Enable Hot Reload for MSVC compilers if supported.
@@ -9,11 +10,12 @@ endif()
 set (CMAKE_CXX_STANDARD 17)
 project( "FER2.0" )
 find_package( OpenCV REQUIRED )
-include_directories(include ${OpenCV_INCLUDE_DIRS} "C:/Users/ferni/Documents/dirent-1.24/include")
+include_directories(include ${OpenCV_INCLUDE_DIRS})
+##"C:/Users/ferni/Documents/dirent-1.24/include")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
-add_executable( FER2.0 src/lbp.cpp src/lbp_main.cpp src/image.cpp include/image.h include/lbp.h )
-add_executable( writeyaml src/writeyaml.cpp src/image.cpp include/image.h include/lbp.h )
-add_executable( feature_extraction src/feature_extraction.cpp src/lbp.cpp src/image.cpp include/image.h include/lbp.h )
+add_executable( FER2.0 src/lbp.cpp src/lbp_main.cpp src/Image.cpp include/image.h include/lbp.h )
+add_executable( writeyaml src/writeyaml.cpp src/Image.cpp include/image.h include/lbp.h )
+add_executable( feature_extraction src/feature_extraction.cpp src/lbp.cpp src/Image.cpp include/image.h include/lbp.h )
 
 target_link_libraries( FER2.0 ${OpenCV_LIBS})
 target_link_libraries( writeyaml ${OpenCV_LIBS})

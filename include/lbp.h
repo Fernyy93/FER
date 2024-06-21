@@ -12,10 +12,9 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <dirent.h>
+
 #include <string.h>
-#include <map>
-#include <direct.h>
+#include <map>`
 #include "../include/json.h"
 
 class Image;

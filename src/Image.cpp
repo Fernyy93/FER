@@ -1,9 +1,5 @@
 // File: Image.cpp
 #include "image.h"
-<<<<<<< HEAD
-=======
-
->>>>>>> bbcc672 (cleaned up project and will add new json writing soon)
 
 // lessons learned. class definitions end with a semicolon. Need to have different variable names for constructor definition.
 Image::Image(std::string img_location, std::string img_emotion){
