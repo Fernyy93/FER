@@ -1,9 +1,6 @@
 // File: Image.cpp
 #include "image.h"
-<<<<<<< HEAD
 
-=======
->>>>>>> feature_extraction
 
 // lessons learned. class definitions end with a semicolon. Need to have different variable names for constructor definition.
 Image::Image(std::string img_location, std::string img_emotion){
