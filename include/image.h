@@ -10,7 +10,6 @@
 #include <stdint.h>
 #include <filesystem>
 #include <iostream>
-#include <string>
 #include <vector>
 #include <sstream>
 #include <fstream>
@@ -37,6 +36,9 @@ public:
 	int getWidth();
 	int getHeight();
 	int getType();
+	void write(cv::FileStorage& fs, const std::string filename, std::string label);
+	void read(const cv::FileNode& node);
+	
 	const cv::Mat getImage() const;
 	std::string getEmotion();
 	json create_json_object();

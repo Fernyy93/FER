@@ -1,5 +1,5 @@
 #define _USE_MATH_DEFINES
-#include <cmath>
+
 #include "lbp.h"
 #include "image.h"
 //#include "base64.hpp" // this is the latest change which breaks the code.

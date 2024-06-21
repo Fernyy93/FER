@@ -1,4 +1,6 @@
 // how do display a single histogram from the histogram map?
+
+
 #include "lbp.h"
 #include "image.h"
 
@@ -22,7 +24,16 @@ int main(int argc, const char *argv[]){
 	// later do a matrix of vectors? one vector for each emotion
 	//vector<Mat> images;
 	
-	std::vector<std::string> labels =  {"anger", "contempt", "disgust", "fear", "happy", "neutral", "sadness", "surprise"};
+	std::vector<std::string> labels =  {
+		"anger", 
+		"contempt", 
+		"disgust", 
+		"fear", 
+		"happy", 
+		"neutral", 
+		"sadness", 
+		"surprise"
+	};
 	std::map<std::string, int> emotions;
 	
 
@@ -140,8 +151,9 @@ int main(int argc, const char *argv[]){
 	std::cout << "Height before reshape: " << testHist.rows << std::endl;
 
 
-
-	testHist.convertTo(testHist, CV_32F);
+	if (testHist.type() != CV_32F){
+		testHist.convertTo(testHist, CV_32F);
+	}	
 	testHist = testHist.reshape(1,1);
 
 	std::cout << "Width after reshape: " << testHist.cols << std::endl;
@@ -149,9 +161,9 @@ int main(int argc, const char *argv[]){
 	
 	int var_count = training_data.cols;
 	std::cout << "number of cols in test image: " << testHist.cols << std::endl;
-	std::cout << "number of expected variables: " << var_count << std::endl;
+	std::cout << "number of expected variables: " << training_data.cols << std::endl;
 	std::cout << "Histogram type: " << testHist.type() << std::endl;
-	if ((var_count != testHist.cols) || (testHist.type() != CV_32F)){
+	if ((training_data.cols != testHist.cols)){
 		std::cout << "test image number of features does not match expected number of features" << std::endl;
 		return 1;
 	} else {

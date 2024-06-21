@@ -12,10 +12,14 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <dirent.h>
+
 #include <string.h>
+<<<<<<< HEAD
 #include <map>
 #include <direct.h>
+=======
+#include <map>`
+>>>>>>> feature_extraction
 #include "../include/json.h"
 
 class Image;
