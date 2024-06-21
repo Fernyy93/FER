@@ -1,5 +1,14 @@
 #include "image.h"
-#include "lbp.h"
+
+#include <filesystem>
+#include <iostream>
+#include <fstream>
+#include <sstream>
+
+#include <stdint.h>
+#include <string.h>
+
+namespace fs = std::filesystem;
 
 int main(int argc, const char *argv[]) {
     if (argc != 3){

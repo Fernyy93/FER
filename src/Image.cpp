@@ -51,26 +51,6 @@ void Image::read(const cv::FileNode& node){
 
 
 
-/*
-json Image::create_json_object(){
- 	json j = {
- 		{"Location", this->image_location},
- 		{"Width", this->getWidth()},
- 		{"Height", this->getHeight()},
- 		{"Emotion", this->getEmotion()}
- 	};
- 	/*
- 	std::ofstream file("image_json_test.json");
- 	if (file.is_open()){
- 		file << std::setw(4) << j << std::endl;
- 		file.close();
- 	} else {
- 		std::cerr << "Could not open file for writing" << std::endl;
- 	}
-	
-	return j;
-}
-*/
 const cv::Mat Image::getImage() const{
 	return this->image;
 }

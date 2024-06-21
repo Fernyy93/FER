@@ -13,12 +13,10 @@
 #include <vector>
 #include <sstream>
 #include <fstream>
-#include "../include/json.h"
 #include <iomanip>
 
 using namespace std;
-namespace fs = std::filesystem;
-using json = nlohmann::json;
+
 
 class Image {
 private: 
@@ -41,7 +39,7 @@ public:
 	
 	const cv::Mat getImage() const;
 	std::string getEmotion();
-	json create_json_object();
+	
 };
 
 #endif
