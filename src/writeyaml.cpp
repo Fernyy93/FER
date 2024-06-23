@@ -1,3 +1,10 @@
+/**
+ * Filename: writeyaml.cpp
+ * Writes the photos into a yaml file containing their cv::Mat object, file location and emotion
+ * Not to be confused with the function write_yaml that writes histogram objects to a yaml file
+ * Author: Alex Fernicola
+ *  
+ **/
 #include "image.h"
 
 #include <filesystem>

@@ -14,17 +14,19 @@ include_directories(include ${OpenCV_INCLUDE_DIRS})
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
-add_executable(writeyaml src/writeyaml.cpp src/Image.cpp include/image.h)
-add_executable(feature_extraction src/feature_extraction.cpp src/Image.cpp include/image.h)
-# add_executable(classification src/classification.cpp src/Image.cpp include/image.h)
+add_executable(writeyaml src/writeyaml.cpp src/Image.cpp include/image.h )
+add_executable(feature_extraction src/feature_extraction.cpp src/Image.cpp src/fer.cpp include/image.h include/fer.h )
+add_executable(classification src/classification.cpp src/Image.cpp src/fer.cpp include/image.h include/fer.h )
+add_executable(predict src/predict.cpp src/fer.cpp include/fer.h)
 
 target_link_libraries(writeyaml ${OpenCV_LIBS})
 target_link_libraries(feature_extraction ${OpenCV_LIBS})
-# target_link_libraries(classification ${OpenCV_LIBS})
+target_link_libraries(classification ${OpenCV_LIBS})
+target_link_libraries(predict ${OpenCV_LIBS})
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
-  set_property(TARGET writeyaml PROPERTY CXX_STANDARD 20)
-  
+  set_property(TARGET writeyaml PROPERTY CXX_STANDARD 20)  
   set_property(TARGET feature_extraction PROPERTY CXX_STANDARD 20)
-  # set_property(TARGET classification PROPERTY CXX_STANDARD 20)
+  set_property(TARGET classification PROPERTY CXX_STANDARD 20)
+  set_property(TARGET predict PROPERTY CXX_STANDARD 20)
 endif()
