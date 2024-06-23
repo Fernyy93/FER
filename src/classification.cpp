@@ -56,6 +56,7 @@ int main(int argc, const char *argv[]){
 	std::cout << "training_data height: " << training_data.rows << std::endl;
 	Ptr<SVM> svm = SVM::create();
 	svm->setType(SVM::C_SVC);
+	svm->setKernel(SVM::LINEAR);
 	svm->setTermCriteria(TermCriteria(TermCriteria::MAX_ITER, 100, 1e-6));
 	svm->train(training_data, ROW_SAMPLE, labels);
 	svm->save("../svms/svm.xml");
