@@ -2,14 +2,8 @@ new/
 test/
 build/
 features_yaml/
-<<<<<<< HEAD
 images_yaml/
-=======
-<<<<<<< HEAD
-images_yaml/
+svms/
 *.yml
 *.json
-=======
-images_yaml/
->>>>>>> 072285f (excluding large fiels from tracking)
->>>>>>> feature_extraction
+*.xml

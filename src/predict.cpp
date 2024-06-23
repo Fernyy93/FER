@@ -19,7 +19,7 @@ int main(int argc, const char* argv[]){
 	}
 
 	// create a window to display the images from the webcam
-	cv::namedWindow("Webcam", WINDOW_AUTOSIZE);
+	cv::namedWindow("Webcam", cv::WINDOW_NORMAL);
 
 	// this will contain the image from the webcame
 	cv::Mat frame;
